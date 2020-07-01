@@ -1,23 +1,43 @@
-import React, {useState, useEffect} from "react"
+import React, {useState} from "react"
 import RellaxWrapper from "react-rellax-wrapper"
-import {Cell} from "styled-css-grid"
+import { Cell } from "styled-css-grid"
+import { ColorExtractor } from 'react-color-extractor'
+import useHover from "../hooks/useHover"
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
-function MovieItem({item, speedVal, zIndex}) {
-    const [hovered, setHovered] = useState(false)
-    const url = `https://image.tmdb.org/t/p/w500/${item.results[0].poster_path}`
+function MovieItem({item, speedVal}) {
+
+    const [hovered, ref] = useHover()
+    const [color, setColor] = useState("")
+    const url = `https://image.tmdb.org/t/p/w500/${item.poster_path}`
+
     function styles() {
         if(hovered) {
             return {
-                display: "block",
-                width: "90%",
-                height: "auto",
-                opacity: 0.5
+                divStyle : {
+                    position: "relative",
+                    display: "inline-block",
+                    backgroundColor: color
+                },
+                imgStyle: {
+                    display: "block",
+                    width: "100%",
+                    height: "auto",
+                    opacity: 0.3
+                }
             }
         } else {
             return {
-                display: "block",
-                width: "90%",
-                height: "auto"
+                divStyle : {
+                    position: "relative",
+                    display: "inline-block",
+                    background: color
+                },
+                imgStyle: {
+                    display: "block",
+                    width: "100%",
+                    height: "auto"
+                }
             }
         }
     }
@@ -25,12 +45,15 @@ function MovieItem({item, speedVal, zIndex}) {
     return (
         <Cell>        
             <RellaxWrapper speed={speedVal}>
-                <img 
-                    src={url}
-                    style={styles()}
-                    onMouseEnter={() => setHovered(true)}
-                    onMouseLeave={() => setHovered(false)}  
-                />
+                <div style={styles().divStyle}>
+                    <ColorExtractor getColors={colors => setColor(colors[0])}>
+                        <img 
+                            src={url}
+                            style={styles().imgStyle}
+                            ref={ref}  
+                        />
+                    </ColorExtractor>
+                </div>
             </RellaxWrapper>
         </Cell>
     )
