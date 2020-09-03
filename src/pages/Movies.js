@@ -1,7 +1,5 @@
 import React, { useContext } from "react"
 import { MovieContext } from "../contexts/MovieContext"
-
-//import images from "../sampleImages"
 import { Grid, Cell } from "styled-css-grid"
 
 function Movies() {
@@ -19,15 +17,15 @@ function Movies() {
                 />
                 <button onClick={searchMovie}>Add Movie</button>
             </Cell>
-            <Cell>Menu</Cell>
+            <Cell></Cell>
             <Cell>
                 <Grid  columns="repeat(auto-fit,minmax(200px,1fr))">
                     {movieItemElements}
                 </Grid>
             </Cell>
-            <Cell>Ads</Cell>
+            <Cell></Cell>
             <Cell width={3}>
-                Footer
+                
             </Cell>
         </Grid>
     )
